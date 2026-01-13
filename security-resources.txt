@@ -1,0 +1,100 @@
+1.	NIST – https://www.nist.gov/cyberframework
+	2.	CISA – https://www.cisa.gov
+	3.	MITRE ATT&CK – https://attack.mitre.org
+	4.	OWASP – https://owasp.org
+	5.	SANS Internet Storm Center – https://isc.sans.edu
+	6.	ENISA – https://www.enisa.europa.eu
+	7.	Australian Cyber Security Centre – https://www.cyber.gov.au
+	8.	ISO – https://www.iso.org/isoiec-27001-information-security.html
+	9.	Cloud Security Alliance – https://cloudsecurityalliance.org
+	10.	Microsoft Security – https://learn.microsoft.com/security
+	11.	Microsoft Secure Score – https://security.microsoft.com/securescore
+	12.	AWS Security – https://aws.amazon.com/security/
+	13.	Google Cloud Security – https://cloud.google.com/security
+	14.	IBM Security – https://www.ibm.com/security
+	15.	VirusTotal – https://www.virustotal.com
+	16.	AbuseIPDB – https://www.abuseipdb.com
+	17.	AlienVault OTX – https://otx.alienvault.com
+	18.	Shodan – https://www.shodan.io
+	19.	CVE – https://cve.mitre.org
+	20.	NVD – https://nvd.nist.gov
+	21.	Exploit Database – https://www.exploit-db.com
+	22.	HackerOne – https://www.hackerone.com
+	23.	Bugcrowd – https://www.bugcrowd.com
+	24.	PortSwigger – https://portswigger.net
+	25.	Have I Been Pwned – https://haveibeenpwned.com
+	26.	The Honeynet Project – https://www.honeynet.org
+	27.	Open Web Application Security Project Juice Shop – https://owasp.org/www-project-juice-shop/
+	28.	TryHackMe – https://tryhackme.com
+	29.	Hack The Box – https://www.hackthebox.com
+	30.	Blue Team Labs Online – https://blueteamlabs.online
+	31.	DFIR Training – https://www.dfir.training
+	32.	Open Security Training – https://opensecuritytraining.info
+	33.	IAPP – https://iapp.org
+	34.	Electronic Frontier Foundation – https://www.eff.org
+	35.	Privacy International – https://privacyinternational.org
+	36.	Center for Internet Security – https://www.cisecurity.org
+	37.	CIS Benchmarks – https://www.cisecurity.org/cis-benchmarks
+	38.	OpenSSF – https://openssf.org
+	39.	Linux Foundation Security – https://www.linuxfoundation.org/projects/security
+	40.	CERT Coordination Center – https://www.sei.cmu.edu/about/divisions/cert/
+	41.	US-CERT – https://www.cisa.gov/uscert
+	42.	Krebs on Security – https://krebsonsecurity.com
+	43.	Dark Reading – https://www.darkreading.com
+	44.	BleepingComputer – https://www.bleepingcomputer.com
+	45.	The Hacker News – https://thehackernews.com
+	46.	SecurityWeek – https://www.securityweek.com
+	47.	Schneier on Security – https://www.schneier.com
+	48.	Packet Storm – https://packetstormsecurity.com
+	49.	MalwareBazaar – https://bazaar.abuse.ch
+	50.	URLhaus – https://urlhaus.abuse.ch
+	51.	OpenSOC – https://opensoc.io
+	52.	Elastic Security – https://www.elastic.co/security
+	53.	Splunk Security – https://www.splunk.com/en_us/solutions/security.html
+	54.	Palo Alto Networks Unit 42 – https://unit42.paloaltonetworks.com
+	55.	Mandiant – https://www.mandiant.com
+	56.	CrowdStrike Threat Intelligence – https://www.crowdstrike.com/resources/
+	57.	Check Point Research – https://research.checkpoint.com
+	58.	Sophos Threat Center – https://www.sophos.com/en-us/threat-center
+	59.	Trend Micro Research – https://www.trendmicro.com/en_us/research.html
+	60.	Kaspersky Securelist – https://securelist.com
+	61.	OpenAI Red Teaming – https://openai.com/safety
+	62.	AI Incident Database – https://incidentdatabase.ai
+	63.	OWASP API Security Project – https://owasp.org/www-project-api-security/
+	64.	OWASP Mobile Top 10 – https://owasp.org/www-project-mobile-top-10/
+	65.	Secureworks Counter Threat Unit – https://www.secureworks.com/research
+	66.	Cyber Threat Alliance – https://www.cyberthreatalliance.org
+	67.	FIRST – https://www.first.org
+	68.	National Cyber Security Alliance – https://staysafeonline.org
+	69.	Open Policy Agent – https://www.openpolicyagent.org
+	70.	KubeSec – https://kubesec.io
+	71.	Falco Security – https://falco.org
+	72.	Trivy – https://trivy.dev
+	73.	OpenVAS – https://www.openvas.org
+	74.	Metasploit – https://www.metasploit.com
+	75.	Wireshark – https://www.wireshark.org
+	76.	Suricata – https://suricata.io
+	77.	Zeek – https://zeek.org
+	78.	Security Onion – https://securityonion.net
+	79.	OpenCTI – https://www.opencti.io
+	80.	MISP – https://www.misp-project.org
+	81.	CyberChef – https://gchq.github.io/CyberChef
+	82.	GCHQ NCSC – https://www.ncsc.gov.uk
+	83.	Shadowserver Foundation – https://www.shadowserver.org
+	84.	Risk Based Security – https://www.riskbasedsecurity.com
+	85.	Secure Code Warrior – https://www.securecodewarrior.com
+	86.	Cybrary – https://www.cybrary.it
+	87.	OpenBugBounty – https://www.openbugbounty.org
+	88.	CERT-EU – https://cert.europa.eu
+	89.	Japan CERT – https://www.jpcert.or.jp
+	90.	APWG – https://apwg.org
+	91.	PhishTank – https://www.phishtank.com
+	92.	Spamhaus – https://www.spamhaus.org
+	93.	Have I Been Sold – https://haveibeensold.com
+	94.	Open Privacy Research Society – https://openpr.org
+	95.	Secureworks Taegis – https://www.secureworks.com/taegis
+	96.	Google Project Zero – https://googleprojectzero.blogspot.com
+	97.	Zero Day Initiative – https://www.zerodayinitiative.com
+	98.	Red Canary – https://redcanary.com
+	99.	SecureDrop – https://securedrop.org
+	100.	OpenAI Safety – https://openai.com/safety
