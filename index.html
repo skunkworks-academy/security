@@ -3,10 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Author metadata for SEO and browsers -->
+  <meta name="author" content="anwarsz">
   <title>Cybersecurity Learning Hub 2026</title>
+  
+  <!-- 
+    Author: anwarsz
+    Version: 2026.1
+    Description: Responsive Cybersecurity Learning Hub with layered dark mode and persistent storage.
+  -->
+
   <style>
     :root {
-      /* 2026 Layered Theme Variables */
       --bg-primary: #f8fafc;
       --bg-card: #ffffff;
       --text-main: #1e293b;
@@ -18,10 +26,10 @@
     }
 
     [data-theme="dark"] {
-      --bg-primary: #121212; /* WCAG recommended dark gray */
+      --bg-primary: #121212;
       --bg-card: #1e1e1e;
       --text-main: #f1f5f9;
-      --accent: #60a5fa; /* Desaturated for dark mode */
+      --accent: #60a5fa;
       --accent-muted: #1e3a8a;
       --border: #334155;
       --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
@@ -30,13 +38,15 @@
     * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
     body { background: var(--bg-primary); color: var(--text-main); transition: background var(--transition); margin: 0; padding: 2rem; }
 
-    /* Header & Controls */
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .header-info { display: flex; flex-direction: column; gap: 0.2rem; }
+    .author-badge { font-size: 0.85rem; color: var(--accent); font-weight: 600; opacity: 0.9; }
+    
     .controls { display: flex; gap: 0.5rem; }
     button { 
       padding: 0.6rem 1.2rem; border-radius: 8px; border: 1px solid var(--border); 
       background: var(--bg-card); color: var(--text-main); cursor: pointer;
-      min-width: 44px; min-height: 44px; /* Accessible touch target */
+      min-width: 44px; min-height: 44px;
       transition: var(--transition);
     }
     button:hover { background: var(--accent-muted); }
@@ -45,12 +55,10 @@
       background: var(--bg-card); color: var(--text-main); width: 300px;
     }
 
-    /* Tabs */
     nav { display: flex; gap: 1rem; border-bottom: 2px solid var(--border); margin-bottom: 2rem; overflow-x: auto; }
     .tab-btn { border: none; background: none; padding: 1rem; font-weight: 600; opacity: 0.7; }
     .tab-btn.active { opacity: 1; border-bottom: 3px solid var(--accent); color: var(--accent); }
 
-    /* Grid & Cards */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
     .card { 
       background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem; 
@@ -59,19 +67,21 @@
     .card:hover { transform: translateY(-5px); }
     .tag { font-size: 0.8rem; background: var(--accent-muted); color: var(--accent); padding: 0.2rem 0.6rem; border-radius: 4px; margin-right: 0.5rem; }
     
-    /* Progress Bar */
     .progress-container { background: var(--border); height: 8px; border-radius: 4px; margin-top: 1rem; overflow: hidden; }
     .progress-bar { background: var(--accent); height: 100%; width: 0%; transition: width 0.5s; }
 
-    @media (max-width: 600px) { input[search] { width: 100%; } }
+    @media (max-width: 600px) { input[type="search"] { width: 100%; } }
   </style>
 </head>
 <body data-theme="light">
 
   <header>
-    <h1>Learning Hub <small style="font-weight: 400; opacity: 0.6;">v2026.1</small></h1>
+    <div class="header-info">
+      <h1 style="margin:0;">Learning Hub</h1>
+      <span class="author-badge">By anwaraz • v2026.1</span>
+    </div>
     <div class="controls">
-      <input type="search" id="search" placeholder="Search paths, vendors, glossary..." aria-label="Search content">
+      <input type="search" id="search" placeholder="Search content..." aria-label="Search content">
       <button onclick="toggleTheme()" id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
       <button onclick="exportProgress()">💾 Export</button>
     </div>
@@ -86,6 +96,10 @@
   <main id="content-area" class="grid"></main>
 
   <script>
+    /**
+     * Cybersecurity Learning Hub
+     * Developed by: anwaraz
+     */
     const DATA = {
       paths: [
         { title: "SOC Analyst L1", tags: ["Beginner", "Defense"], progress: 65 },
@@ -154,15 +168,16 @@
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DATA));
       const dlAnchorElem = document.createElement('a');
       dlAnchorElem.setAttribute("href", dataStr);
-      dlAnchorElem.setAttribute("download", "cybersecurity_progress.json");
+      dlAnchorElem.setAttribute("download", "cybersecurity_progress_anwaraz.json");
       dlAnchorElem.click();
     }
 
-    // Initialize
     document.getElementById('search').addEventListener('input', render);
     const savedTheme = localStorage.getItem('hub-theme') || 'light';
     document.body.setAttribute('data-theme', savedTheme);
     render();
   </script>
 </body>
+</html>
+
 </html>
