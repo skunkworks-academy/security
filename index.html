@@ -1,27 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Cybersecurity Learning Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Learning Hub 2026</title>
   <style>
-    /* Dark/light theme variables, responsive grid, cards, progress bars, etc. */
+    :root {
+      /* 2026 Layered Theme Variables */
+      --bg-primary: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --accent: #2563eb;
+      --accent-muted: #dbeafe;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --transition: 0.3s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #121212; /* WCAG recommended dark gray */
+      --bg-card: #1e1e1e;
+      --text-main: #f1f5f9;
+      --accent: #60a5fa; /* Desaturated for dark mode */
+      --accent-muted: #1e3a8a;
+      --border: #334155;
+      --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+    }
+
+    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: var(--bg-primary); color: var(--text-main); transition: background var(--transition); margin: 0; padding: 2rem; }
+
+    /* Header & Controls */
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .controls { display: flex; gap: 0.5rem; }
+    button { 
+      padding: 0.6rem 1.2rem; border-radius: 8px; border: 1px solid var(--border); 
+      background: var(--bg-card); color: var(--text-main); cursor: pointer;
+      min-width: 44px; min-height: 44px; /* Accessible touch target */
+      transition: var(--transition);
+    }
+    button:hover { background: var(--accent-muted); }
+    input[type="search"] { 
+      padding: 0.6rem; border-radius: 8px; border: 1px solid var(--border); 
+      background: var(--bg-card); color: var(--text-main); width: 300px;
+    }
+
+    /* Tabs */
+    nav { display: flex; gap: 1rem; border-bottom: 2px solid var(--border); margin-bottom: 2rem; overflow-x: auto; }
+    .tab-btn { border: none; background: none; padding: 1rem; font-weight: 600; opacity: 0.7; }
+    .tab-btn.active { opacity: 1; border-bottom: 3px solid var(--accent); color: var(--accent); }
+
+    /* Grid & Cards */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .card { 
+      background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem; 
+      border-radius: 12px; box-shadow: var(--shadow); transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-5px); }
+    .tag { font-size: 0.8rem; background: var(--accent-muted); color: var(--accent); padding: 0.2rem 0.6rem; border-radius: 4px; margin-right: 0.5rem; }
+    
+    /* Progress Bar */
+    .progress-container { background: var(--border); height: 8px; border-radius: 4px; margin-top: 1rem; overflow: hidden; }
+    .progress-bar { background: var(--accent); height: 100%; width: 0%; transition: width 0.5s; }
+
+    @media (max-width: 600px) { input[search] { width: 100%; } }
   </style>
 </head>
-<body>
-  <!-- Header with theme toggle, reset, export -->
-  <!-- Tabs: Learning Paths, Vendors, Labs & Quiz, Glossary -->
-  <!-- Panels rendered via JS -->
+<body data-theme="light">
+
+  <header>
+    <h1>Learning Hub <small style="font-weight: 400; opacity: 0.6;">v2026.1</small></h1>
+    <div class="controls">
+      <input type="search" id="search" placeholder="Search paths, vendors, glossary..." aria-label="Search content">
+      <button onclick="toggleTheme()" id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+      <button onclick="exportProgress()">💾 Export</button>
+    </div>
+  </header>
+
+  <nav role="tablist">
+    <button class="tab-btn active" onclick="switchTab('paths')">Paths</button>
+    <button class="tab-btn" onclick="switchTab('vendors')">Vendors</button>
+    <button class="tab-btn" onclick="switchTab('glossary')">Glossary</button>
+  </nav>
+
+  <main id="content-area" class="grid"></main>
+
   <script>
     const DATA = {
-      paths: [/* Basics, SOC, Network, Cloud, Identity, Threat Hunting */],
-      vendors: [/* Defender, Palo Alto, Cisco, CrowdStrike, Fortinet, Okta, Splunk, AWS, GCP */],
-      labs: [/* Phishing triage, EDR investigation, Firewall review */],
-      quiz: [/* 5 multiple-choice questions with explanations */],
-      glossary: [/* CIA, EDR, SIEM, ATT&CK, Zero Trust, CSPM, PAM */]
+      paths: [
+        { title: "SOC Analyst L1", tags: ["Beginner", "Defense"], progress: 65 },
+        { title: "Cloud Security (AWS/GCP)", tags: ["Intermediate", "Infra"], progress: 20 },
+        { title: "Threat Hunting 2026", tags: ["Advanced", "Pattern Analysis"], progress: 0 }
+      ],
+      vendors: [
+        { name: "Microsoft Defender", focus: "XDR & Endpoint", status: "Leader" },
+        { name: "Palo Alto Networks", focus: "SASE & Firewall", status: "Leader" },
+        { name: "CrowdStrike", focus: "EDR & Identity", status: "Visionary" }
+      ],
+      glossary: [
+        { term: "Zero Trust", def: "A security framework requiring all users to be authenticated and authorized continuously." },
+        { term: "SIEM", def: "Security Information and Event Management; provides real-time analysis of security alerts." },
+        { term: "CSPM", def: "Cloud Security Posture Management; automates security risk identification in cloud infra." }
+      ]
     };
-    // Renderers for paths, vendors (with modal), labs, quiz, glossary
-    // Search/filter, localStorage progress, export JSON, dark/light theme
+
+    let activeTab = 'paths';
+
+    function render() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const container = document.getElementById('content-area');
+      container.innerHTML = '';
+
+      const items = DATA[activeTab].filter(item => 
+        JSON.stringify(item).toLowerCase().includes(query)
+      );
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        if(activeTab === 'paths') {
+          card.innerHTML = `
+            <h3>${item.title}</h3>
+            ${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+            <div class="progress-container"><div class="progress-bar" style="width: ${item.progress}%"></div></div>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem">${item.progress}% Complete</p>
+          `;
+        } else if(activeTab === 'vendors') {
+          card.innerHTML = `<h3>${item.name}</h3><p>${item.focus}</p><span class="tag">${item.status}</span>`;
+        } else {
+          card.innerHTML = `<h3>${item.term}</h3><p>${item.def}</p>`;
+        }
+        container.appendChild(card);
+      });
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.toLowerCase() === tab);
+      });
+      render();
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('hub-theme', newTheme);
+    }
+
+    function exportProgress() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DATA));
+      const dlAnchorElem = document.createElement('a');
+      dlAnchorElem.setAttribute("href", dataStr);
+      dlAnchorElem.setAttribute("download", "cybersecurity_progress.json");
+      dlAnchorElem.click();
+    }
+
+    // Initialize
+    document.getElementById('search').addEventListener('input', render);
+    const savedTheme = localStorage.getItem('hub-theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    render();
   </script>
 </body>
 </html>
