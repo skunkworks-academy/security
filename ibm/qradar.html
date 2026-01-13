@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="anwaraz">
+    <title>IBM Security | QRadar SIEM Education Portfolio 2026</title>
+    <style>
+        :root {
+            --cds-blue-60: #0f62fe;
+            --cds-blue-80: #002d9c;
+            --cds-gray-10: #f4f4f4;
+            --cds-gray-20: #e0e0e0;
+            --cds-gray-90: #262626;
+            --cds-gray-100: #161616;
+            --text-primary: #161616;
+            --text-secondary: #525252;
+            --white: #ffffff;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: "IBM Plex Sans", -apple-system, sans-serif; 
+            background: var(--white); 
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Nav */
+        nav.ibm-masthead {
+            background: var(--cds-gray-100);
+            color: var(--white);
+            height: 52px;
+            display: flex;
+            align-items: center;
+            padding: 0 4%;
+            font-weight: 600;
+            border-bottom: 1px solid var(--cds-gray-90);
+        }
+
+        /* Hero */
+        .hero {
+            background: var(--cds-gray-100);
+            color: var(--white);
+            padding: 4rem 4%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        .hero-content h1 { font-size: 3.5rem; font-weight: 300; margin-bottom: 1rem; line-height: 1.1; }
+        .hero-content p { font-size: 1.25rem; color: var(--cds-gray-20); max-width: 600px; font-weight: 300; }
+        .hero-meta { border-left: 1px solid var(--cds-gray-90); padding-left: 2rem; display: flex; flex-direction: column; justify-content: center; }
+
+        /* Search & Filter Bar */
+        .toolbar {
+            background: var(--cds-gray-10);
+            padding: 1.5rem 4%;
+            display: flex;
+            gap: 1rem;
+            border-bottom: 1px solid var(--cds-gray-20);
+            position: sticky;
+            top: 52px;
+            z-index: 99;
+        }
+        .search-box {
+            flex-grow: 1;
+            padding: 0.75rem;
+            border: none;
+            border-bottom: 1px solid var(--cds-text-secondary);
+            font-size: 1rem;
+            background: transparent;
+        }
+
+        /* Grid */
+        .container { padding: 3rem 4%; }
+        .path-section { margin-bottom: 4rem; }
+        .section-title { font-size: 1.5rem; font-weight: 400; margin-bottom: 2rem; border-bottom: 1px solid var(--cds-gray-20); padding-bottom: 0.5rem; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Cards */
+        .q-card {
+            background: var(--cds-gray-10);
+            border: 1px solid transparent;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: var(--transition);
+            position: relative;
+        }
+        .q-card:hover {
+            background: var(--white);
+            border-color: var(--cds-blue-60);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translateY(-4px);
+        }
+        .card-category { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--cds-blue-60); margin-bottom: 1rem; letter-spacing: 1px; }
+        .q-card h3 { font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem; }
+        .q-card p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.5rem; flex-grow: 1; }
+        
+        .module-list { list-style: none; margin-bottom: 2rem; border-top: 1px solid var(--cds-gray-20); padding-top: 1rem; }
+        .module-list li { font-size: 0.85rem; padding: 0.25rem 0; display: flex; align-items: flex-start; gap: 0.5rem; }
+        .module-list li::before { content: "•"; color: var(--cds-blue-60); }
+
+        .btn-ghost {
+            color: var(--cds-blue-60);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--cds-gray-20);
+            padding-top: 1rem;
+        }
+
+        /* Tablet/Mobile Optimization */
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-meta { border-left: none; border-top: 1px solid var(--cds-gray-90); padding-left: 0; padding-top: 2rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+        }
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+            .toolbar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="ibm-masthead">
+        IBM Security <span style="font-weight:300; margin-left:8px;">| Learning Academy</span>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>QRadar SIEM Portfolio</h1>
+            <p>Master the world's leading Security Intelligence platform. From foundational offense analysis to advanced AI-driven threat hunting for 2026 security operations.</p>
+        </div>
+        <div class="hero-meta">
+            <div style="font-size: 0.8rem; opacity: 0.7;">TOTAL CURRICULUM</div>
+            <div style="font-size: 2rem; font-weight: 300;">120+ Hours</div>
+            <div style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">CERTIFICATIONS AVAILABLE</div>
+            <div style="font-size: 2rem; font-weight: 300;">Associate to Deployment</div>
+        </div>
+    </header>
+
+    <div class="toolbar">
+        <input type="search" class="search-box" placeholder="Search modules (AQL, WinCollect, Log Sources, Tuning)...">
+        <button style="padding: 0.5rem 1.5rem; background: var(--cds-blue-60); color: white; border: none; cursor: pointer;">Filters</button>
+    </div>
+
+    <main class="container">
+        
+        <!-- Path 1: Analysts -->
+        <section class="path-section">
+            <h2 class="section-title">Security Analyst Track (SOC L1-L3)</h2>
+            <div class="grid">
+                <article class="q-card">
+                    <div class="card-category">Foundations • BQ105G</div>
+                    <h3>QRadar SIEM Foundations</h3>
+                    <p>Core skills for navigating the QRadar UI and investigating suspected attacks highlighted as offenses.</p>
+                    <ul class="module-list">
+                        <li>Offense Investigation & Lifecycle</li>
+                        <li>Ariel Search Basics (Simple & Advanced)</li>
+                        <li>Dashboard Customization & Pulse</li>
+                    </ul>
+                    <a href="#" class="btn-ghost">Launch Course <span>→</span></a>
+                </article>
+
+                <article class="q-card">
+                    <div class="card-category">Advanced • BQ203G</div>
+                    <h3>Advanced Analyst & Tuning</h3>
+                    <p>Go beyond the basics with Custom Rule Engine (CRE) tuning and false positive reduction strategies.</p>
+                    <ul class="module-list">
+                        <li>Custom Rule Architecture</li>
+                        <li>Building Blocks and Reference Data</li>
+                        <li>X-Force Threat Intelligence Integration</li>
+                    </ul>
+                    <a href="#" class="btn-ghost">Launch Course <span>→</span></a>
+                </article>
+
+                <article class="q-card">
+                    <div class="card-category">New 2026 • AI-01</div>
+                    <h3>AI & Advisor with watsonx</h3>
+                    <p>Harness AI to automate root cause analysis and identify high-fidelity threats across the enterprise.</p>
+                    <ul class="module-list">
+                        <li>Automated Offense Analysis</li>
+                        <li>MITRE ATT&CK Mapping with AI</li>
+                        <li>UBA (User Behavior Analytics) Insights</li>
+                    </ul>
+                    <a href="#" class="btn-ghost" style="color: #a2191f;">Specialty Path <span>→</span></a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Path 2: Engineering -->
+        <section class="path-section">
+            <h2 class="section-title">Deployment & Engineering Track</h2>
+            <div class="grid">
+                <article class="q-card">
+                    <div class="card-category">Admin • BQ150G</div>
+                    <h3>System Administration</h3>
+                    <p>Essential training for managing a QRadar deployment, from log source onboarding to health monitoring.</p>
+                    <ul class="module-list">
+                        <li>Log Source Protocols (Syslog, JDBC, S3)</li>
+                        <li>Network Hierarchy Management</li>
+                        <li>System Backups & Data Retention</li>
+                    </ul>
+                    <a href="#" class="btn-ghost">Launch Course <span>→</span></a>
+                </article>
+
+                <article class="q-card">
+                    <div class="card-category">Developer • BQ301G</div>
+                    <h3>Advanced AQL & API</h3>
+                    <p>Master the Ariel Query Language and QRadar REST API for custom automation and integrations.</p>
+                    <ul class="module-list">
+                        <li>Complex AQL Joins and Grouping</li>
+                        <li>API Scripting with Python</li>
+                        <li>Building Custom Apps for QRadar</li>
+                    </ul>
+                    <a href="#" class="btn-ghost">Launch Course <span>→</span></a>
+                </article>
+
+                <article class="q-card">
+                    <div class="card-category">Architecture • BQ400G</div>
+                    <h3>Enterprise Deployment</h3>
+                    <p>Learn to design and scale multi-site QRadar architectures for global security operations.</p>
+                    <ul class="module-list">
+                        <li>Event/Flow Processor Scaling</li>
+                        <li>Data Node Clusters</li>
+                        <li>High Availability (HA) & Disaster Recovery</li>
+                    </ul>
+                    <a href="#" class="btn-ghost">Launch Course <span>→</span></a>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <footer style="background: var(--cds-gray-100); color: #8d8d8d; padding: 4rem 4%; font-size: 0.85rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr; gap: 4rem;">
+            <div>
+                <p style="color: white; margin-bottom: 1rem;">IBM Security Education</p>
+                <p>Curriculum curated by <strong>anwaraz</strong> for the 2026 QRadar Learning Series. All courses aligned with IBM Certified Analyst and Administrator exams.</p>
+            </div>
+            <div style="text-align: right;">
+                <p>© 2026 IBM Corporation</p>
+                <p>QRadar SIEM v7.5.0 Update 10+</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
