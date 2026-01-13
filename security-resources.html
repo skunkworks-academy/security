@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cybersecurity & Threat Intelligence Resources</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #38bdf8;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #020617, #0f172a);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--muted);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 2rem auto 1rem;
+      padding: 0 1rem;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      padding: 1.5rem;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #020617, var(--card));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .card a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .card span {
+      display: block;
+      margin-top: 0.4rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Cybersecurity & Threat Intelligence Resources</h1>
+  <p>
+    A curated, practitioner-focused directory covering frameworks, threat intel,
+    DFIR, cloud security, vulnerability research, privacy, and red/blue team tooling.
+  </p>
+</header>
+
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Search resources… (NIST, OWASP, Threat Intel, DFIR, Cloud, etc.)">
+</div>
+
+<div class="grid" id="resourceGrid">
+
+  <!-- Frameworks & Authorities -->
+  <div class="card"><a href="https://www.nist.gov/cyberframework" target="_blank">NIST Cybersecurity Framework</a><span>Foundational risk & security framework</span></div>
+  <div class="card"><a href="https://www.cisa.gov" target="_blank">CISA</a><span>US national cyber defense & advisories</span></div>
+  <div class="card"><a href="https://attack.mitre.org" target="_blank">MITRE ATT&CK</a><span>Adversary tactics & techniques</span></div>
+  <div class="card"><a href="https://owasp.org" target="_blank">OWASP</a><span>Application security standards</span></div>
+  <div class="card"><a href="https://www.iso.org/isoiec-27001-information-security.html" target="_blank">ISO/IEC 27001</a><span>Information security management</span></div>
+
+  <!-- Cloud & Vendor Security -->
+  <div class="card"><a href="https://learn.microsoft.com/security" target="_blank">Microsoft Security</a><span>Zero Trust & Defender ecosystem</span></div>
+  <div class="card"><a href="https://security.microsoft.com/securescore" target="_blank">Microsoft Secure Score</a><span>Tenant security posture</span></div>
+  <div class="card"><a href="https://aws.amazon.com/security/" target="_blank">AWS Security</a><span>Cloud security architecture</span></div>
+  <div class="card"><a href="https://cloud.google.com/security" target="_blank">Google Cloud Security</a><span>Secure-by-design cloud controls</span></div>
+  <div class="card"><a href="https://www.ibm.com/security" target="_blank">IBM Security</a><span>Enterprise & threat intelligence</span></div>
+
+  <!-- Threat Intelligence -->
+  <div class="card"><a href="https://www.virustotal.com" target="_blank">VirusTotal</a><span>Malware & URL analysis</span></div>
+  <div class="card"><a href="https://www.abuseipdb.com" target="_blank">AbuseIPDB</a><span>Malicious IP reputation</span></div>
+  <div class="card"><a href="https://otx.alienvault.com" target="_blank">AlienVault OTX</a><span>Open threat exchange</span></div>
+  <div class="card"><a href="https://www.shodan.io" target="_blank">Shodan</a><span>Internet-wide device search</span></div>
+
+  <!-- Vulnerabilities -->
+  <div class="card"><a href="https://cve.mitre.org" target="_blank">CVE</a><span>Public vulnerability IDs</span></div>
+  <div class="card"><a href="https://nvd.nist.gov" target="_blank">NVD</a><span>Vulnerability scoring & data</span></div>
+  <div class="card"><a href="https://www.exploit-db.com" target="_blank">Exploit Database</a><span>Public exploit research</span></div>
+
+  <!-- Training & Labs -->
+  <div class="card"><a href="https://tryhackme.com" target="_blank">TryHackMe</a><span>Hands-on cyber labs</span></div>
+  <div class="card"><a href="https://www.hackthebox.com" target="_blank">Hack The Box</a><span>Advanced penetration testing labs</span></div>
+  <div class="card"><a href="https://blueteamlabs.online" target="_blank">Blue Team Labs Online</a><span>Defensive security practice</span></div>
+  <div class="card"><a href="https://www.dfir.training" target="_blank">DFIR Training</a><span>Incident response & forensics</span></div>
+
+  <!-- Monitoring & Detection -->
+  <div class="card"><a href="https://www.wireshark.org" target="_blank">Wireshark</a><span>Network traffic analysis</span></div>
+  <div class="card"><a href="https://suricata.io" target="_blank">Suricata</a><span>IDS / IPS engine</span></div>
+  <div class="card"><a href="https://zeek.org" target="_blank">Zeek</a><span>Network security monitoring</span></div>
+  <div class="card"><a href="https://securityonion.net" target="_blank">Security Onion</a><span>NSM & threat hunting</span></div>
+
+  <!-- News & Research -->
+  <div class="card"><a href="https://krebsonsecurity.com" target="_blank">Krebs on Security</a><span>Investigative security journalism</span></div>
+  <div class="card"><a href="https://www.bleepingcomputer.com" target="_blank">BleepingComputer</a><span>Incident & malware news</span></div>
+  <div class="card"><a href="https://thehackernews.com" target="_blank">The Hacker News</a><span>Cybersecurity headlines</span></div>
+  <div class="card"><a href="https://www.schneier.com" target="_blank">Schneier on Security</a><span>Security philosophy & analysis</span></div>
+
+</div>
+
+<footer>
+  Curated Security Resource Hub • Built for practitioners, defenders, and architects
+</footer>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const cards = document.querySelectorAll('.card');
+
+  searchInput.addEventListener('input', () => {
+    const term = searchInput.value.toLowerCase();
+    cards.forEach(card => {
+      card.style.display = card.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
