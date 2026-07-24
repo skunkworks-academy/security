@@ -12,7 +12,11 @@ const config = {
   organizationName: 'skunkworks-academy',
   projectName: 'security',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   i18n: {
     defaultLocale: 'en',
@@ -64,7 +68,7 @@ const config = {
           position: 'right',
         },
         {
-          href: '/login',
+          to: '/login/',
           label: 'Sign in',
           position: 'right',
           className: 'navbar-login',
