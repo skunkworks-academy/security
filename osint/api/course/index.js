@@ -69,13 +69,14 @@ function decryptCourse() {
     throw new Error('COURSE_CONTENT_KEY must be a 64-character hexadecimal AES-256 key.');
   }
 
-  const filePath = path.join(
-    __dirname,
-    '..',
-    'course-data',
-    'osint-course.enc.json',
-  );
+  const dataDirectory = path.join(__dirname, '..', 'course-data');
+  const filePath = path.join(dataDirectory, 'osint-course.enc.json');
   const payload = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  const ciphertext = Array.isArray(payload.chunks)
+    ? payload.chunks
+        .map((chunk) => fs.readFileSync(path.join(dataDirectory, chunk), 'utf8').trim())
+        .join('')
+    : payload.ciphertext;
   const decipher = crypto.createDecipheriv(
     'aes-256-gcm',
     Buffer.from(keyHex, 'hex'),
@@ -86,7 +87,7 @@ function decryptCourse() {
   decipher.setAuthTag(Buffer.from(payload.tag, 'base64'));
 
   const plaintext = Buffer.concat([
-    decipher.update(Buffer.from(payload.ciphertext, 'base64')),
+    decipher.update(Buffer.from(ciphertext, 'base64')),
     decipher.final(),
   ]);
 
