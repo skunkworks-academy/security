@@ -43,6 +43,24 @@ PowerShell:
 $env:COURSE_CONTENT_KEY = "<64-character-hex-key>"
 ```
 
+## Protected curriculum authoring
+
+Keep the editable authoring source outside the public repository in an authorised private location. After reviewing an updated JSON source, re-encrypt it with the existing or rotated key:
+
+```bash
+COURSE_CONTENT_KEY="<64-character-hex-key>" \
+  npm run encrypt-content -- /secure/path/OSINT_COURSE_AUTHORING_SOURCE.json
+```
+
+PowerShell:
+
+```powershell
+$env:COURSE_CONTENT_KEY = "<64-character-hex-key>"
+npm run encrypt-content -- C:\Secure\OSINT_COURSE_AUTHORING_SOURCE.json
+```
+
+The command validates the course code, generates a fresh AES-GCM nonce, replaces the authenticated payload segments and does not print or write the key.
+
 ## Production configuration
 
 Set these Azure Static Web Apps application settings:
