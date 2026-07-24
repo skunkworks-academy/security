@@ -1,0 +1,54 @@
+{
+  "routes": [
+    {
+      "route": "/login",
+      "redirect": "/.auth/login/aad?post_login_redirect_uri=/learn/"
+    },
+    {
+      "route": "/logout",
+      "redirect": "/.auth/logout?post_logout_redirect_uri=/"
+    },
+    {
+      "route": "/learn*",
+      "allowedRoles": [
+        "authenticated"
+      ]
+    },
+    {
+      "route": "/api/course*",
+      "allowedRoles": [
+        "authenticated"
+      ]
+    },
+    {
+      "route": "/api/*",
+      "allowedRoles": [
+        "authenticated"
+      ]
+    }
+  ],
+  "responseOverrides": {
+    "401": {
+      "statusCode": 302,
+      "redirect": "/login"
+    }
+  },
+  "globalHeaders": {
+    "Content-Security-Policy": "default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://portal.skunkworksacademy.com",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY"
+  },
+  "mimeTypes": {
+    ".json": "application/json"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/api/*",
+      "/downloads/*",
+      "/*.{css,scss,js,png,gif,ico,jpg,svg,webp,woff,woff2}"
+    ]
+  }
+}
