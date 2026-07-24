@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "algorithm": "AES-256-GCM",
+  "aad": "osint-course-v1",
+  "iv": "XGEDMSSemE8Kw8wU",
+  "tag": "AfOu7yL7iflklpw+1ZK9HQ==",
+  "chunks": [
+    "osint-course.enc.part01",
+    "osint-course.enc.part02",
+    "osint-course.enc.part03",
+    "osint-course.enc.part04",
+    "osint-course.enc.part05",
+    "osint-course.enc.part06",
+    "osint-course.enc.part07",
+    "osint-course.enc.part08",
+    "osint-course.enc.part09",
+    "osint-course.enc.part10",
+    "osint-course.enc.part11",
+    "osint-course.enc.part12",
+    "osint-course.enc.part13",
+    "osint-course.enc.part14",
+    "osint-course.enc.part15"
+  ]
+}
