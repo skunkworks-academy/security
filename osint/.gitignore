@@ -1,0 +1,10 @@
+node_modules/
+build/
+.docusaurus/
+.env
+.env.*
+!.env.example
+COURSE_CONTENT_KEY.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

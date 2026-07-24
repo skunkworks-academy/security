@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "algorithm": "AES-256-GCM",
+  "aad": "osint-course-v1",
+  "iv": "XGEDMSSemE8Kw8wU",
+  "tag": "AfOu7yL7iflklpw+1ZK9HQ==",
+  "chunks": [
+    "osint-course.payload.01",
+    "osint-course.payload.02",
+    "osint-course.payload.03",
+    "osint-course.payload.04",
+    "osint-course.payload.05"
+  ]
+}
