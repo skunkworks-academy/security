@@ -1,0 +1,104 @@
+name: Cyber Armory CI and runtime shell check
+
+on:
+  pull_request:
+    paths:
+      - 'armory/**'
+      - '.github/workflows/cyber-armory-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'armory/**'
+      - '.github/workflows/cyber-armory-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-armory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate catalogue data and safety metadata
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const source = fs.readFileSync('armory/catalog.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(source, sandbox, { filename: 'armory/catalog.js' });
+          const rows = sandbox.window.SKUNKWORKS_ARMORY;
+          if (!Array.isArray(rows)) throw new Error('SKUNKWORKS_ARMORY is not an array');
+          if (rows.length < 100) throw new Error(`Expected a comprehensive catalogue, found only ${rows.length} entries`);
+          const allowedModes = new Set(['reference','defensive','scoped','lab','offline','privacy']);
+          const required = ['n','u','c','d','m'];
+          rows.forEach((item, index) => {
+            required.forEach((key) => {
+              if (!item[key] || typeof item[key] !== 'string') throw new Error(`Row ${index + 1} missing ${key}`);
+            });
+            if (!allowedModes.has(item.m)) throw new Error(`Row ${index + 1} has invalid mode ${item.m}`);
+            const url = new URL(item.u);
+            if (!['http:','https:'].includes(url.protocol)) throw new Error(`Row ${index + 1} has unsafe protocol`);
+            if (/@|%40/i.test(item.u)) throw new Error(`Row ${index + 1} contains an email-like value in a public URL`);
+          });
+          const categories = new Set(rows.map((item) => item.c));
+          if (categories.size < 12) throw new Error(`Expected broad capability coverage, found ${categories.size} categories`);
+          console.log(`Validated ${rows.length} resources across ${categories.size} categories.`);
+          NODE
+
+      - name: Validate page metadata and canonical runtime include
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f armory/index.html
+          grep -q 'SKW-SEC-ARM-001' armory/index.html
+          grep -q 'https://security.skunkworksacademy.com/armory/' armory/index.html
+          grep -q 'academy-navigation.js?v=2026.08.15.1' armory/index.html
+          grep -q 'data-skunkworks-global-nav="v10"' armory/index.html
+          grep -q 'Authorised use only' armory/index.html
+          node <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('armory/index.html', 'utf8');
+          if (/<script[^>]+src\s*=\s*["'](?:javascript:|data:)/i.test(html)) {
+            console.error('Unsafe script source detected.');
+            process.exit(1);
+          }
+          NODE
+
+      - name: Validate canonical Skunkworks Academy shell runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/academy-navigation.js?v=2026.08.15.1' -o /tmp/academy-navigation.js
+          grep -q 'skunkworks-ui.js' /tmp/academy-navigation.js
+          grep -q 'skunkworks-footer.js' /tmp/academy-navigation.js
+          grep -q 'skunkworks-design-system.css' /tmp/academy-navigation.js
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-ui.js?v=2026.08.15.1' -o /tmp/skunkworks-ui.js
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-footer.js?v=2026.08.15.1' -o /tmp/skunkworks-footer.js
+          grep -q 'swa-global-nav' /tmp/skunkworks-ui.js
+          grep -q 'swa-global-footer' /tmp/skunkworks-footer.js
+          echo 'Canonical navigation, UI, design-system and footer runtime assets are reachable.'
+
+      - name: Local HTTP smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --directory . >/tmp/armory-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid || true' EXIT
+          sleep 1
+          curl -fsS 'http://127.0.0.1:4173/armory/' -o /tmp/armory.html
+          grep -q '<title>Cyber Security Armory | Skunkworks Academy</title>' /tmp/armory.html
+          grep -q 'SKW-SEC-ARM-001' /tmp/armory.html
+          curl -fsS 'http://127.0.0.1:4173/armory/catalog.js' -o /tmp/catalog.js
+          grep -q 'SKUNKWORKS_ARMORY' /tmp/catalog.js
+          echo 'Armory local route and catalogue load successfully.'
