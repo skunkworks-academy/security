@@ -3,11 +3,13 @@ name: Cyber Armory CI and runtime shell check
 on:
   pull_request:
     paths:
+      - 'index.html'
       - 'armory/**'
       - '.github/workflows/cyber-armory-ci.yml'
   push:
     branches: [main]
     paths:
+      - 'index.html'
       - 'armory/**'
       - '.github/workflows/cyber-armory-ci.yml'
   workflow_dispatch:
@@ -38,9 +40,10 @@ jobs:
           vm.runInNewContext(source, sandbox, { filename: 'armory/catalog.js' });
           const rows = sandbox.window.SKUNKWORKS_ARMORY;
           if (!Array.isArray(rows)) throw new Error('SKUNKWORKS_ARMORY is not an array');
-          if (rows.length < 100) throw new Error(`Expected a comprehensive catalogue, found only ${rows.length} entries`);
+          if (rows.length < 250) throw new Error(`Expected attachment-complete catalogue, found only ${rows.length} entries`);
           const allowedModes = new Set(['reference','defensive','scoped','lab','offline','privacy']);
           const required = ['n','u','c','d','m'];
+          const urls = new Set();
           rows.forEach((item, index) => {
             required.forEach((key) => {
               if (!item[key] || typeof item[key] !== 'string') throw new Error(`Row ${index + 1} missing ${key}`);
@@ -49,13 +52,26 @@ jobs:
             const url = new URL(item.u);
             if (!['http:','https:'].includes(url.protocol)) throw new Error(`Row ${index + 1} has unsafe protocol`);
             if (/@|%40/i.test(item.u)) throw new Error(`Row ${index + 1} contains an email-like value in a public URL`);
+            const key = item.u.replace(/\/$/, '');
+            if (urls.has(key)) throw new Error(`Duplicate resource URL at row ${index + 1}: ${item.u}`);
+            urls.add(key);
           });
           const categories = new Set(rows.map((item) => item.c));
-          if (categories.size < 12) throw new Error(`Expected broad capability coverage, found ${categories.size} categories`);
+          if (categories.size < 18) throw new Error(`Expected broad capability coverage, found ${categories.size} categories`);
           console.log(`Validated ${rows.length} resources across ${categories.size} categories.`);
           NODE
 
-      - name: Validate page metadata and canonical runtime include
+      - name: Validate main landing page Armory reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '/armory/' index.html
+          grep -q 'SKW-SEC-ARM-001' index.html
+          grep -q 'Cyber Security Armory' index.html
+          grep -q 'academy-navigation.js?v=2026.08.15.1' index.html
+          grep -q 'data-skunkworks-global-nav="v10"' index.html
+
+      - name: Validate Armory page metadata and canonical runtime include
         shell: bash
         run: |
           set -euo pipefail
@@ -67,10 +83,11 @@ jobs:
           grep -q 'Authorised use only' armory/index.html
           node <<'NODE'
           const fs = require('fs');
-          const html = fs.readFileSync('armory/index.html', 'utf8');
-          if (/<script[^>]+src\s*=\s*["'](?:javascript:|data:)/i.test(html)) {
-            console.error('Unsafe script source detected.');
-            process.exit(1);
+          for (const file of ['index.html','armory/index.html']) {
+            const html = fs.readFileSync(file, 'utf8');
+            if (/<script[^>]+src\s*=\s*["'](?:javascript:|data:)/i.test(html)) {
+              throw new Error(`Unsafe script source detected in ${file}`);
+            }
           }
           NODE
 
@@ -96,9 +113,12 @@ jobs:
           server_pid=$!
           trap 'kill $server_pid || true' EXIT
           sleep 1
+          curl -fsS 'http://127.0.0.1:4173/' -o /tmp/security.html
+          grep -q 'Cyber Security Armory' /tmp/security.html
+          grep -q '/armory/' /tmp/security.html
           curl -fsS 'http://127.0.0.1:4173/armory/' -o /tmp/armory.html
           grep -q '<title>Cyber Security Armory | Skunkworks Academy</title>' /tmp/armory.html
           grep -q 'SKW-SEC-ARM-001' /tmp/armory.html
           curl -fsS 'http://127.0.0.1:4173/armory/catalog.js' -o /tmp/catalog.js
           grep -q 'SKUNKWORKS_ARMORY' /tmp/catalog.js
-          echo 'Armory local route and catalogue load successfully.'
+          echo 'Main Security landing page and Armory routes load successfully.'
