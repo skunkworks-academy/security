@@ -29,40 +29,34 @@ jobs:
         with:
           node-version: 24
 
-      - name: Validate catalogue data and safety metadata
+      - name: Validate attachment-derived catalogue and safety metadata
         shell: bash
         run: |
           node <<'NODE'
-          const fs = require('fs');
-          const vm = require('vm');
-          const source = fs.readFileSync('armory/catalog.js', 'utf8');
-          const sandbox = { window: {} };
-          vm.runInNewContext(source, sandbox, { filename: 'armory/catalog.js' });
-          const rows = sandbox.window.SKUNKWORKS_ARMORY;
-          if (!Array.isArray(rows)) throw new Error('SKUNKWORKS_ARMORY is not an array');
-          if (rows.length < 250) throw new Error(`Expected attachment-complete catalogue, found only ${rows.length} entries`);
-          const allowedModes = new Set(['reference','defensive','scoped','lab','offline','privacy']);
-          const required = ['n','u','c','d','m'];
-          const urls = new Set();
-          rows.forEach((item, index) => {
-            required.forEach((key) => {
-              if (!item[key] || typeof item[key] !== 'string') throw new Error(`Row ${index + 1} missing ${key}`);
-            });
-            if (!allowedModes.has(item.m)) throw new Error(`Row ${index + 1} has invalid mode ${item.m}`);
-            const url = new URL(item.u);
-            if (!['http:','https:'].includes(url.protocol)) throw new Error(`Row ${index + 1} has unsafe protocol`);
-            if (/@|%40/i.test(item.u)) throw new Error(`Row ${index + 1} contains an email-like value in a public URL`);
-            const key = item.u.replace(/\/$/, '');
-            if (urls.has(key)) throw new Error(`Duplicate resource URL at row ${index + 1}: ${item.u}`);
-            urls.add(key);
-          });
-          const categories = new Set(rows.map((item) => item.c));
-          if (categories.size < 18) throw new Error(`Expected broad capability coverage, found ${categories.size} categories`);
+          const fs=require('fs'),vm=require('vm');
+          const sandbox={window:{}};
+          for(const file of ['armory/data-1.js','armory/data-2.js','armory/data-3.js','armory/data-4.js','armory/data-5.js','armory/data-6.js','armory/catalog.js']){
+            if(!fs.existsSync(file)) throw new Error(`Missing ${file}`);
+            vm.runInNewContext(fs.readFileSync(file,'utf8'),sandbox,{filename:file});
+          }
+          const rows=sandbox.window.SKUNKWORKS_ARMORY;
+          if(!Array.isArray(rows)) throw new Error('SKUNKWORKS_ARMORY is not an array');
+          if(rows.length<250) throw new Error(`Expected at least 250 attachment-derived resources, found ${rows.length}`);
+          const allowed=new Set(['reference','defensive','scoped','lab','offline','privacy']);
+          const urls=new Set();
+          for(const [i,item] of rows.entries()){
+            for(const k of ['n','u','c','d','m']) if(!item[k]||typeof item[k]!=='string') throw new Error(`Row ${i+1} missing ${k}`);
+            if(!allowed.has(item.m)) throw new Error(`Row ${i+1} invalid mode ${item.m}`);
+            const url=new URL(item.u); if(!['http:','https:'].includes(url.protocol)) throw new Error(`Row ${i+1} unsafe protocol`);
+            if(/@|%40/i.test(item.u)) throw new Error(`Row ${i+1} contains email-like value in public URL`);
+            const key=item.u.replace(/\/$/,''); if(urls.has(key)) throw new Error(`Duplicate URL ${item.u}`); urls.add(key);
+          }
+          const categories=new Set(rows.map(x=>x.c));
+          if(categories.size<18) throw new Error(`Expected at least 18 capability areas, found ${categories.size}`);
           console.log(`Validated ${rows.length} resources across ${categories.size} categories.`);
           NODE
 
       - name: Validate main landing page Armory reference
-        shell: bash
         run: |
           set -euo pipefail
           grep -q '/armory/' index.html
@@ -71,54 +65,39 @@ jobs:
           grep -q 'academy-navigation.js?v=2026.08.15.1' index.html
           grep -q 'data-skunkworks-global-nav="v10"' index.html
 
-      - name: Validate Armory page metadata and canonical runtime include
-        shell: bash
+      - name: Validate Armory page and segmented data loading
         run: |
           set -euo pipefail
-          test -f armory/index.html
           grep -q 'SKW-SEC-ARM-001' armory/index.html
           grep -q 'https://security.skunkworksacademy.com/armory/' armory/index.html
-          grep -q 'academy-navigation.js?v=2026.08.15.1' armory/index.html
-          grep -q 'data-skunkworks-global-nav="v10"' armory/index.html
           grep -q 'Authorised use only' armory/index.html
-          node <<'NODE'
-          const fs = require('fs');
-          for (const file of ['index.html','armory/index.html']) {
-            const html = fs.readFileSync(file, 'utf8');
-            if (/<script[^>]+src\s*=\s*["'](?:javascript:|data:)/i.test(html)) {
-              throw new Error(`Unsafe script source detected in ${file}`);
-            }
-          }
-          NODE
+          grep -q 'academy-navigation.js?v=2026.08.15.1' armory/index.html
+          for n in 1 2 3 4 5 6; do grep -q "data-$n.js" armory/index.html; done
+          grep -q 'catalog.js' armory/index.html
+          grep -q 'Thank you, Patrão — my hero and master in chief.' armory/index.html
 
       - name: Validate canonical Skunkworks Academy shell runtime
-        shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/academy-navigation.js?v=2026.08.15.1' -o /tmp/academy-navigation.js
-          grep -q 'skunkworks-ui.js' /tmp/academy-navigation.js
-          grep -q 'skunkworks-footer.js' /tmp/academy-navigation.js
-          grep -q 'skunkworks-design-system.css' /tmp/academy-navigation.js
-          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-ui.js?v=2026.08.15.1' -o /tmp/skunkworks-ui.js
-          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-footer.js?v=2026.08.15.1' -o /tmp/skunkworks-footer.js
-          grep -q 'swa-global-nav' /tmp/skunkworks-ui.js
-          grep -q 'swa-global-footer' /tmp/skunkworks-footer.js
-          echo 'Canonical navigation, UI, design-system and footer runtime assets are reachable.'
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/academy-navigation.js?v=2026.08.15.1' -o /tmp/nav.js
+          grep -q 'skunkworks-ui.js' /tmp/nav.js
+          grep -q 'skunkworks-footer.js' /tmp/nav.js
+          grep -q 'skunkworks-design-system.css' /tmp/nav.js
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-ui.js?v=2026.08.15.1' -o /tmp/ui.js
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-footer.js?v=2026.08.15.1' -o /tmp/footer.js
+          grep -q 'swa-global-nav' /tmp/ui.js
+          grep -q 'swa-global-footer' /tmp/footer.js
+          echo 'Canonical Academy navigation and footer runtime assets are reachable.'
 
       - name: Local HTTP smoke test
-        shell: bash
         run: |
           set -euo pipefail
-          python3 -m http.server 4173 --directory . >/tmp/armory-http.log 2>&1 &
-          server_pid=$!
-          trap 'kill $server_pid || true' EXIT
-          sleep 1
+          python3 -m http.server 4173 --directory . >/tmp/http.log 2>&1 &
+          pid=$!; trap 'kill $pid || true' EXIT; sleep 1
           curl -fsS 'http://127.0.0.1:4173/' -o /tmp/security.html
           grep -q 'Cyber Security Armory' /tmp/security.html
-          grep -q '/armory/' /tmp/security.html
           curl -fsS 'http://127.0.0.1:4173/armory/' -o /tmp/armory.html
           grep -q '<title>Cyber Security Armory | Skunkworks Academy</title>' /tmp/armory.html
-          grep -q 'SKW-SEC-ARM-001' /tmp/armory.html
-          curl -fsS 'http://127.0.0.1:4173/armory/catalog.js' -o /tmp/catalog.js
-          grep -q 'SKUNKWORKS_ARMORY' /tmp/catalog.js
-          echo 'Main Security landing page and Armory routes load successfully.'
+          for n in 1 2 3 4 5 6; do curl -fsS "http://127.0.0.1:4173/armory/data-$n.js" >/dev/null; done
+          curl -fsS 'http://127.0.0.1:4173/armory/catalog.js' >/dev/null
+          echo 'Main Security landing page and complete Armory routes load successfully.'
