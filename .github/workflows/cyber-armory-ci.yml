@@ -22,10 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Validate catalogue data and safety metadata
         shell: bash
@@ -65,10 +65,14 @@ jobs:
           grep -q 'academy-navigation.js?v=2026.08.15.1' armory/index.html
           grep -q 'data-skunkworks-global-nav="v10"' armory/index.html
           grep -q 'Authorised use only' armory/index.html
-          if grep -Eqi '<script[^>]+src=["'"'](javascript:|data:)' armory/index.html; then
-            echo 'Unsafe script source detected.' >&2
-            exit 1
-          fi
+          node <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('armory/index.html', 'utf8');
+          if (/<script[^>]+src\s*=\s*["'](?:javascript:|data:)/i.test(html)) {
+            console.error('Unsafe script source detected.');
+            process.exit(1);
+          }
+          NODE
 
       - name: Validate canonical Skunkworks Academy shell runtime
         shell: bash
