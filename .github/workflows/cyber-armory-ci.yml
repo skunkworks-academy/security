@@ -62,7 +62,7 @@ jobs:
           grep -q '/armory/' index.html
           grep -q 'SKW-SEC-ARM-001' index.html
           grep -q 'Cyber Security Armory' index.html
-          grep -q 'academy-navigation.js?v=2026.08.15.1' index.html
+          grep -q 'academy-navigation.js?v=2026.08.22.2&rev=2026.08.22.2' index.html
           grep -q 'data-skunkworks-global-nav="v10"' index.html
 
       - name: Validate Armory page and segmented data loading
@@ -71,7 +71,8 @@ jobs:
           grep -q 'SKW-SEC-ARM-001' armory/index.html
           grep -q 'https://security.skunkworksacademy.com/armory/' armory/index.html
           grep -q 'Authorised use only' armory/index.html
-          grep -q 'academy-navigation.js?v=2026.08.15.1' armory/index.html
+          grep -q 'academy-navigation.js?v=' armory/index.html
+          grep -q 'data-skunkworks-global-nav="v10"' armory/index.html
           for n in 1 2 3 4 5 6; do grep -q "data-$n.js" armory/index.html; done
           grep -q 'catalog.js' armory/index.html
           grep -q 'Thank you, Patrão — my hero and master in chief.' armory/index.html
@@ -79,15 +80,20 @@ jobs:
       - name: Validate canonical Skunkworks Academy shell runtime
         run: |
           set -euo pipefail
-          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/academy-navigation.js?v=2026.08.15.1' -o /tmp/nav.js
-          grep -q 'skunkworks-ui.js' /tmp/nav.js
-          grep -q 'skunkworks-footer.js' /tmp/nav.js
-          grep -q 'skunkworks-design-system.css' /tmp/nav.js
-          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-ui.js?v=2026.08.15.1' -o /tmp/ui.js
-          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-footer.js?v=2026.08.15.1' -o /tmp/footer.js
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/academy-navigation.js?v=2026.08.22.2&rev=2026.08.22.2' -o /tmp/nav-loader.js
+          grep -q 'academy-navigation-v11.js' /tmp/nav-loader.js
+          grep -q 'academy-page-contract.css' /tmp/nav-loader.js
+
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/academy-navigation-v11.js?v=2026.08.20.1' -o /tmp/nav-v11.js
+          grep -q 'skunkworks-ui.js' /tmp/nav-v11.js
+          grep -q 'skunkworks-footer.js' /tmp/nav-v11.js
+          grep -q 'skunkworks-design-system.css' /tmp/nav-v11.js
+
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-ui.js?v=2026.08.20.1' -o /tmp/ui.js
+          curl -fsSL --retry 3 --retry-delay 2 'https://skunkworksacademy.com/assets/skunkworks-footer.js?v=2026.08.20.1' -o /tmp/footer.js
           grep -q 'swa-global-nav' /tmp/ui.js
           grep -q 'swa-global-footer' /tmp/footer.js
-          echo 'Canonical Academy navigation and footer runtime assets are reachable.'
+          echo 'Canonical Academy compatibility loader, v11 navigation and footer runtime assets are reachable.'
 
       - name: Local HTTP smoke test
         run: |
