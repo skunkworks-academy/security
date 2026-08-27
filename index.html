@@ -8,7 +8,7 @@
   <meta name="author" content="Skunkworks Academy" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#05070b" />
+  <meta name="theme-color" content="#03033A" />
   <link rel="canonical" href="https://security.skunkworksacademy.com/" />
   <link rel="icon" type="image/png" sizes="32x32" href="https://skunkworksacademy.com/images/favicon-white.png" />
   <link rel="apple-touch-icon" href="https://skunkworksacademy.com/images/favicon-black.png" />
@@ -21,15 +21,15 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Skunkworks Academy Security","url":"https://security.skunkworksacademy.com/","hasPart":{"@type":"CollectionPage","name":"Cyber Security Armory","identifier":"SKW-SEC-ARM-001","url":"https://security.skunkworksacademy.com/armory/"}}</script>
   <style>
     :root{
-      --bg:#05070b;--surface:#0f1724;--surface-2:#162033;--surface-3:#1d293d;
-      --text:#f8fafc;--text-soft:#e2e8f0;--muted:#cbd5e1;--subtle:#a8b4c6;
-      --line:#3a4960;--line-strong:#53657f;--accent:#ea580c;--accent-2:#b91c1c;
-      --amber:#fbbf24;--link:#93c5fd;--focus:#fde68a;--radius:24px;
+      --bg:#05050b;--surface:#11111c;--surface-2:#171728;--surface-3:#23233a;
+      --text:#f4f6fa;--text-soft:#e5e9f0;--muted:#c8d1df;--subtle:#aeb9c9;
+      --line:rgba(216,222,232,.20);--line-strong:rgba(216,222,232,.38);--accent:#1e6bd0;--accent-2:#1756a9;
+      --amber:#f24208;--link:#8fbaff;--focus:#f24208;--radius:24px;
       --shadow:0 26px 76px rgba(0,0,0,.46)
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth;background:var(--bg)}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 12% -8%,rgba(185,28,28,.24),transparent 34rem),radial-gradient(circle at 88% 0,rgba(37,99,235,.14),transparent 34rem),var(--bg);color:var(--text);line-height:1.55}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 12% -8%,rgba(30,107,208,.24),transparent 34rem),radial-gradient(circle at 88% 0,rgba(242,66,8,.055),transparent 34rem),var(--bg);color:var(--text);line-height:1.55}
     a{color:inherit}.shell{width:min(1220px,calc(100% - 32px));margin:auto}
     .hero{padding:88px 0 44px;display:grid;grid-template-columns:1.18fr .82fr;gap:30px;align-items:center}
     .eyebrow{margin:0;text-transform:uppercase;letter-spacing:.16em;color:var(--amber);font-size:12px;font-weight:900}
@@ -37,22 +37,22 @@
     .lead{font-size:clamp(18px,2vw,24px);line-height:1.5;color:var(--muted);max-width:820px;margin:0}
     .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
     .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;border:1px solid var(--line-strong);border-radius:999px;padding:11px 17px;text-decoration:none;color:var(--text-soft);background:var(--surface-2);font-weight:850;transition:.18s ease}
-    .btn:hover{background:var(--surface-3);border-color:#7185a4;color:#fff;transform:translateY(-1px)}
+    .btn:hover{background:var(--surface-3);border-color:#8fbaff;color:#fff;transform:translateY(-1px)}
     .btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-    .primary{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#fff;border-color:#f97316;box-shadow:0 10px 28px rgba(185,28,28,.25)}
-    .primary:hover{background:linear-gradient(135deg,#991b1b,#c2410c);border-color:#fb923c}
+    .primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:var(--accent);box-shadow:0 10px 28px rgba(30,107,208,.22)}
+    .primary:hover{background:linear-gradient(135deg,#1756a9,#124785);border-color:#8fbaff}
     .card,.tile,.armory,.course{border:1px solid var(--line);background:linear-gradient(180deg,var(--surface-2),var(--surface));border-radius:var(--radius);box-shadow:var(--shadow)}
     .card{padding:26px}.metric{padding:17px 0;border-bottom:1px solid var(--line)}.metric:last-child{border:0}.metric strong{display:block;font-size:34px;letter-spacing:-.035em;color:#fff}.metric span,.muted{color:var(--muted)}
-    .armory{margin:20px 0 40px;padding:32px;display:grid;grid-template-columns:1.2fr .8fr;gap:26px;align-items:center;border-color:#7c3f23;background:linear-gradient(135deg,#261513 0%,#1d1a18 38%,#111b28 100%)}
-    .armory h2{font-size:clamp(34px,5vw,64px);line-height:1;letter-spacing:-.05em;margin:9px 0 13px;color:#fff}.armory p{color:var(--text-soft);line-height:1.7;margin:0}.armory-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.armory-stats div{padding:17px;border:1px solid var(--line-strong);border-radius:16px;background:#0d1420}.armory-stats strong{display:block;font-size:28px;color:#fff}.armory-stats span{color:var(--muted);font-size:13px}
+    .armory{margin:20px 0 40px;padding:32px;display:grid;grid-template-columns:1.2fr .8fr;gap:26px;align-items:center;border-color:rgba(30,107,208,.55);background:linear-gradient(135deg,#03033a 0%,#0b174d 56%,#11111c 100%)}
+    .armory h2{font-size:clamp(34px,5vw,64px);line-height:1;letter-spacing:-.05em;margin:9px 0 13px;color:#fff}.armory p{color:var(--text-soft);line-height:1.7;margin:0}.armory-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.armory-stats div{padding:17px;border:1px solid var(--line-strong);border-radius:16px;background:#11111c}.armory-stats strong{display:block;font-size:28px;color:#fff}.armory-stats span{color:var(--muted);font-size:13px}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:10px 0 40px}.tile{padding:23px}.tile h2{margin:0 0 9px;font-size:20px;color:#fff}.tile p{margin:0;color:var(--muted);line-height:1.65}
     .course{margin:0 0 42px;padding:28px}.course h2{margin:6px 0 10px;font-size:32px;color:#fff}.repo{padding:16px 0 72px}.repo h2{color:#fff}.repo a{display:inline-flex;margin-right:10px;margin-bottom:10px}.legal{padding-bottom:55px;color:var(--subtle);font-size:13px}
-    ::selection{background:#7c2d12;color:#fff}
+    ::selection{background:rgba(30,107,208,.36);color:#fff}
     @media(max-width:820px){.hero,.armory,.grid{grid-template-columns:1fr}.hero{padding-top:54px}.armory-stats{grid-template-columns:1fr 1fr}}
     @media(max-width:520px){.armory-stats{grid-template-columns:1fr}.shell{width:min(100% - 22px,1220px)}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}.btn:hover{transform:none}}
   </style>
-  <script defer src="https://skunkworksacademy.com/assets/academy-navigation.js?v=2026.08.15.1" data-skunkworks-global-nav="v10"></script>
+  <script defer src="https://skunkworksacademy.com/assets/academy-navigation.js?v=2026.08.22.2&rev=2026.08.22.2" data-skunkworks-global-nav="v10"></script>
 </head>
 <body>
   <main class="shell">
