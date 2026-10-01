@@ -3,7 +3,7 @@
 const config = {
   title: 'OSINT Investigation Methodology',
   tagline: 'Finding What Is Already There',
-  favicon: 'https://skunkworksacademy.com/images/favicon-black.png',
+  favicon: 'images/favicon-search.png',
 
   url: process.env.DOCUSAURUS_URL || 'https://osint.skunkworksacademy.com',
   baseUrl: process.env.DOCUSAURUS_BASE_URL || '/',
